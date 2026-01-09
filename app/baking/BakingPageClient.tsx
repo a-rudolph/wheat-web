@@ -1,3 +1,5 @@
+'use client'
+
 import { animated, useSpring } from 'react-spring'
 import { Button, Card, Col, Row } from 'antd'
 import { CardTitle, Text } from '@/components/atoms'
@@ -8,7 +10,7 @@ import ProgressSteps from '@/components/ProgressSteps'
 import { renderDangerous } from '@/utils/dangerous-renders'
 import styled from 'styled-components'
 import { trpc } from '@/utils/trpc'
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useTimelineSteps } from '@/utils/timeline'
 import { useTimerContext } from '@/hooks/useTimerContext'
 
@@ -62,13 +64,11 @@ const useBakingRecipe = () => {
   const { keyRecipe, setKeyRecipe } = useTimerContext()
 
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const firstRenderRef = useRef(true)
 
-  const recipeQuery = router?.query?.recipeKey
-  const recipeQueryKey = Array.isArray(recipeQuery)
-    ? recipeQuery[0]
-    : recipeQuery
+  const recipeQueryKey = searchParams?.get('recipeKey')
 
   useEffect(() => {
     // query is always empty on first render

@@ -1,3 +1,5 @@
+'use client'
+
 import { BRAND_NAME } from '@/styles/themes'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'

@@ -1,26 +1,20 @@
+'use client'
+
 import { Button, CardTitle, Text } from '@/components/atoms'
 import { Col, Row } from 'antd'
-import type {
-  GetStaticPaths,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next'
 import styled, { css } from 'styled-components'
 import useDragScroller, {
   SCROLL_DURATION,
   SCROLLER_ID,
 } from '@/hooks/useDragScroller'
 import { animated } from 'react-spring'
-import { appRouter } from '@/pages/api/trpc/[trpc]'
 import BasicLayout from '@/layouts/BasicLayout'
 import breakpoints from '@/constants/breakpoints'
-import { createServerSideHelpers } from '@trpc/react-query/server'
 import dynamic from 'next/dynamic'
 import NavBar from '@/layouts/NavBar'
 import RecipeDetail from '@/components/RecipeDetail'
 import { useCurrentRecipeStore } from 'stores/current-recipe'
 import { createResponsiveStyle } from '@/styles/themes'
-import superjson from 'superjson'
 
 const DetailedTimeline = dynamic(
   () => import('@/components/DetailedTimeline'),
@@ -102,7 +96,9 @@ const FloatingButton = styled.div`
   `}
 `
 
-type PageProps = InferGetStaticPropsType<typeof getStaticProps>
+type PageProps = {
+  recipe: any // TODO: type this properly
+}
 
 const Page: React.FC<PageProps> = ({ recipe }) => {
   const { startRecipe, stopRecipe, step } = useCurrentRecipeStore()
@@ -172,43 +168,6 @@ const Page: React.FC<PageProps> = ({ recipe }) => {
       </NavBar>
     </BasicLayout.Card>
   )
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const helpers = createServerSideHelpers({
-    router: appRouter,
-    ctx: {},
-    transformer: superjson,
-  })
-
-  const data = await helpers['get-all-recipes'].fetch()
-
-  const paths = data.recipes.map((recipe) => {
-    return {
-      params: { key: recipe.key },
-    }
-  })
-
-  return {
-    fallback: false,
-    paths,
-  }
-}
-
-export const getStaticProps = async ({
-  params,
-}: GetStaticPropsContext<{ key: string }>) => {
-  const helpers = createServerSideHelpers({
-    router: appRouter,
-    ctx: {},
-    transformer: superjson,
-  })
-
-  const data = await helpers['get-recipe'].fetch({ key: params?.key })
-
-  return {
-    props: { recipe: data.recipe },
-  }
 }
 
 export default Page

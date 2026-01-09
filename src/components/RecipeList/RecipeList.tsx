@@ -1,3 +1,5 @@
+'use client'
+
 import { animated, config, useSpring } from 'react-spring'
 import { CardTitle, Text } from '@/components/atoms'
 import { Col, Row } from 'antd'
