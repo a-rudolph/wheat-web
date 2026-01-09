@@ -14,12 +14,13 @@ import { animated } from 'react-spring'
 import { appRouter } from '@/pages/api/trpc/[trpc]'
 import BasicLayout from '@/layouts/BasicLayout'
 import breakpoints from '@/constants/breakpoints'
-import { createSSGHelpers } from '@trpc/react/ssg'
+import { createServerSideHelpers } from '@trpc/react-query/server'
 import dynamic from 'next/dynamic'
 import NavBar from '@/layouts/NavBar'
 import RecipeDetail from '@/components/RecipeDetail'
 import { useCurrentRecipeStore } from 'stores/current-recipe'
 import { createResponsiveStyle } from '@/styles/themes'
+import superjson from 'superjson'
 
 const DetailedTimeline = dynamic(
   () => import('@/components/DetailedTimeline'),
@@ -174,12 +175,13 @@ const Page: React.FC<PageProps> = ({ recipe }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const ssg = await createSSGHelpers({
+  const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: () => null,
+    ctx: {},
+    transformer: superjson,
   })
 
-  const data = await ssg.fetchQuery('get-all-recipes')
+  const data = await helpers['get-all-recipes'].fetch()
 
   const paths = data.recipes.map((recipe) => {
     return {
@@ -196,12 +198,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = async ({
   params,
 }: GetStaticPropsContext<{ key: string }>) => {
-  const ssg = await createSSGHelpers({
+  const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: () => null,
+    ctx: {},
+    transformer: superjson,
   })
 
-  const data = await ssg.fetchQuery('get-recipe', { key: params?.key })
+  const data = await helpers['get-recipe'].fetch({ key: params?.key })
 
   return {
     props: { recipe: data.recipe },

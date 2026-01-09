@@ -27,7 +27,7 @@ export const requestNotificationPermission = (
 
   try {
     Notification.requestPermission(cb)
-  } catch (e) {
+  } catch {
     onError()
   }
 }

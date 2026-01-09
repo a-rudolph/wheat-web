@@ -3,7 +3,9 @@ import { Button } from '@/components/atoms'
 import Sound from '@/components/icons/Sound'
 import useLocalStorage from '@/hooks/useLocalStorage'
 
-export const SoundSettingProvider: React.FC = ({ children }) => {
+export const SoundSettingProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [on, setOn] = useLocalStorage('sound_enabled', false)
 
   return (

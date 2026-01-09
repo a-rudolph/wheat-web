@@ -99,7 +99,7 @@ const UserSettings: React.FC = () => {
                   <Button
                     icon={<ReloadOutlined />}
                     onClick={resetTips}
-                    type='ghost'
+                    ghost
                   >
                     Reset tooltips
                   </Button>

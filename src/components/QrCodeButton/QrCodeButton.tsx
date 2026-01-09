@@ -41,7 +41,7 @@ const QrCodeButton = ({ value }: QrCodeButtonProps) => {
       trigger={['click']}
       overlay={<StyledCanvas id={CANVAS_ID} data-testid='qr-canvas' />}
     >
-      <Button type='ghost'>
+      <Button ghost>
         <Row gutter={8}>
           <Col>
             <QrcodeOutlined />

@@ -53,7 +53,7 @@ export default function NavBar({ children }: { children?: React.ReactNode }) {
             </Text>
             <span>
               {isHome || (
-                <Link as='/' href='/'>
+                <Link href='/'>
                   <Button type='ghost'>
                     <LeftArrow size={32} />
                   </Button>

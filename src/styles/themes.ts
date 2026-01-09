@@ -1,11 +1,10 @@
 import { css, DefaultTheme } from 'styled-components'
 import _get from 'lodash/get'
 import breakpoints from '@/constants/breakpoints'
-import type { StyledProps } from 'styled-components'
 
 export const BRAND_NAME = 'whea·ti·ful·ly'
 
-type StyleArg = ReturnType<typeof css>
+type StyleArg = ReturnType<typeof css> | TemplateStringsArray
 
 export const createResponsiveStyle = (
   bp: keyof typeof breakpoints,
@@ -35,8 +34,8 @@ createResponsiveStyle.desktop = (style: StyleArg) => {
 }
 
 export const getColor =
-  <P = {}>(color: keyof ThemeType['colors']) =>
-  ({ theme }: StyledProps<P>) => {
+  (color: keyof ThemeType['colors']) =>
+  ({ theme }: { theme: DefaultTheme }) => {
     return _get(theme, `colors.${color}`, theme.colors.text_1)
   }
 
@@ -48,7 +47,7 @@ export const getStyle = <
 >(
   ...args: [A, B]
 ) => {
-  return (props: StyledProps<{}>) => _get(props.theme, args.join('.'))
+  return (props: { theme: DefaultTheme }) => _get(props.theme, args.join('.'))
 }
 
 const wheaty_1 = '#F6BB63'

@@ -36,7 +36,9 @@ const Wrapper = styled(animated.div)`
   overflow-y: hidden;
 `
 
-const MenuDropdown: React.FC = ({ children }) => {
+const MenuDropdown: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const {

@@ -1,8 +1,9 @@
 import { appRouter } from './api/trpc/[trpc]'
 import BasicLayout from '@/layouts/BasicLayout'
-import { createSSGHelpers } from '@trpc/react/ssg'
+import { createServerSideHelpers } from '@trpc/react-query/server'
 import type { InferGetStaticPropsType } from 'next'
 import RecipeList from '@/components/RecipeList'
+import superjson from 'superjson'
 
 type HomeProps = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -15,12 +16,13 @@ const Home = ({ recipes }: HomeProps) => {
 }
 
 export const getStaticProps = async () => {
-  const ssg = await createSSGHelpers({
+  const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: () => null,
+    ctx: {},
+    transformer: superjson,
   })
 
-  const data = await ssg.fetchQuery('get-all-recipes')
+  const data = await helpers['get-all-recipes'].fetch()
 
   return {
     props: {

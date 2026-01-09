@@ -1,10 +1,10 @@
 import { Col, Row } from 'antd'
 import { Text } from '@/components/atoms'
 
-const CardTitle: React.FC<{ style?: React.CSSProperties }> = ({
-  children,
-  style,
-}) => {
+const CardTitle: React.FC<{
+  children?: React.ReactNode
+  style?: React.CSSProperties
+}> = ({ children, style }) => {
   return (
     <Row style={{ margin: '16px', ...style }}>
       <Col>

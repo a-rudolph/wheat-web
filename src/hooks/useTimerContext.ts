@@ -17,7 +17,9 @@ type TimerContextType = {
 const DEPRECATED_TIMER_STORAGE = 'timer'
 const DEPRECATED_UNDEFINED = 'wheatifully_undefined'
 
-export const TimerProvider: React.FC = ({ children }) => {
+export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [timer, setTimer] = useLocalStorage<Timer | null>(
     'timer_storage',
     (timer) => {

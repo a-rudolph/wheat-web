@@ -44,7 +44,9 @@ const VerticalRow = styled(Row)`
   height: 100%;
 `
 
-const PageLayout: React.FC = ({ children }) => {
+const PageLayout: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return (
     <StyledPage>
       <div>{children}</div>
@@ -96,7 +98,7 @@ const useBakingRecipe = () => {
 const BakingPage: React.FC = () => {
   const { recipeKey } = useBakingRecipe()
 
-  const { data, isLoading } = trpc.useQuery(['get-recipe', { key: recipeKey }])
+  const { data, isLoading } = trpc['get-recipe'].useQuery({ key: recipeKey })
 
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const [showingStepIndex, setShowingStepIndex] = useState(0)
@@ -205,10 +207,8 @@ const BakingPage: React.FC = () => {
   return (
     <PageLayout>
       <Row style={{ marginBottom: '8px' }}>
-        <Link href='/recipes/[key]' as={`/recipes/${data.recipe.key}`}>
-          <a>
-            <CardTitle>{data.recipe.name}</CardTitle>
-          </a>
+        <Link href={`/recipes/${data.recipe.key}`}>
+          <CardTitle>{data.recipe.name}</CardTitle>
         </Link>
       </Row>
       <Row>

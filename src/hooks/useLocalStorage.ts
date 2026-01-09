@@ -24,7 +24,7 @@ const useLocalStorage = <T, S = T>(
       const item = localStorage.getItem(storage_key)
 
       return getInitialValue(item ? JSON.parse(item) : initialValue)
-    } catch (error) {
+    } catch {
       return getInitialValue()
     }
   })
