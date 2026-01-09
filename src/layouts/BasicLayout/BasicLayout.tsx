@@ -1,3 +1,5 @@
+'use client'
+
 import breakpoints from '@/constants/breakpoints'
 import Card from '@/components/atoms/Card'
 import { getColor } from '@/styles/themes'
