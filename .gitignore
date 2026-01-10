@@ -43,3 +43,4 @@ yarn-error.log*
 
 # tsconfig build
 tsconfig.tsbuildinfo
+pnpm-lock.yaml
